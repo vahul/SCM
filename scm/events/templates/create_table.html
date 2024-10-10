@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Class List</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            color: ghostwhite;
+            background-color: #1A2930;
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        h1 {
+            color: white;
+            font-size: 48px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .navbar li {
+            float: left;
+        }
+
+        .navbar li a {
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: block;
+            cursor: wait;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: relative;
+            background-color: #f9f9f9;
+            min-width: 100%;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .menu-icon {
+            cursor: wait;
+            color: #fba9a9;
+            font-size: 20px;
+            padding: 15px;
+        }
+
+        .ng {
+            float: right;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Class List</h1>
+        <div class="navbar" id="myNavbar">
+            <ul>
+                <li><a href="{% url 'admin_home' %}">Home</a></li>
+                <li><a href="{% url 'instructionsadmin' %}">Instructions</a></li>
+                <li class="dropdown">
+                    <span class="menu-icon" onclick="toggleDropdown()">Add Details &#9776;</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'save_event' %}">Add Courses</a>
+                        <a href="{% url 'add_class' %}">Add Lecturers</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <span onclick="toggleDropdown()">View Details &#9776;</span>
+                    <div class="dropdown-content">
+                        <a href="{% url 'logged_in_users' %}">Logged In Users</a>
+                        <a href="{% url 'admindisplay_events' %}">View Courses</a>
+                        <a href="{% url 'class_list' %}">Display Lecturers</a>
+                        <a href="{% url 'registered_events' %}">Registered Courses</a>
+                    </div>
+                </li>
+                <li class="ng"><a href="{% url 'login' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Lecturer Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class_obj in classes %}
+            <tr>
+                <td>{{ class_obj.class_name }}</td>
+                <td>{{ class_obj.lecturer_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Management</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .add-event-form {
+            margin-bottom: 20px;
+        }
+
+        .add-event-form input[type="text"], .add-event-form input[type="submit"] {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        .add-event-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-event-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .remove-event-form input[type="submit"] {
+            padding: 6px 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .remove-event-form input[type="submit"]:hover {
+            background-color: #d10000;
+        }
+    </style>
+    <script>
+        function confirmDeletion() {
+            return confirm("Are you sure you want to remove this event?");
+        }
+    </script>
+</head>
+<body>
+    <h1>Event Management</h1>
+
+    <div class="add-event-form">
+        <form method="POST" action="{% url 'add_event' %}">
+            {% csrf_token %}
+            <input type="text" name="event_name" placeholder="Event Name" required>
+            <input type="submit" value="Add Event">
+        </form>
+    </div>
+
+    <table>
+        <tr>
+            <th>Event Name</th>
+            <th>Action</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+            <td>{{ event.name }}</td>
+            <td>
+                <form method="POST" action="{% url 'remove_event' event.id %}" onsubmit="return confirmDeletion()">
+                    {% csrf_token %}
+                    <input type="submit" value="Remove Event">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
